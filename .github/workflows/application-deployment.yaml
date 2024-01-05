@@ -1,0 +1,37 @@
+name: Application Deployment Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: development
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: "GitHub_to_AWS_via_FederatedOIDC"
+          aws-region: "us-east-1"
+
+      - name: Configure AWS ECR
+        run: |
+          aws ecr get-login-password --region ${{ secrets.AWS_Region }} | docker login --username AWS --password-stdin ${{ secrets.AWS_Account_ID }}.dkr.ecr.${{ secrets.AWS_Region }}.amazonaws.com
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.ECR_REPOSITORY_URI }}:${{ github.sha }} .
+
+      - name: Push Image to ECR
+        run: |
+          docker push ${{ secrets.ECR_REPOSITORY_URI }}:${{ github.sha }}
