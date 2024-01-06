@@ -41,6 +41,13 @@ jobs:
           ignore-unfixed: true
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
+          output: "trivy-scan-results.txt"
+
+      - name: Upload Trivy Scan Results Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: trivy-scan-results
+          path: trivy-scan-results.txt
 
       - name: Push Image to ECR
         run: |
