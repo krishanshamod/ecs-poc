@@ -44,6 +44,7 @@ jobs:
           output: "trivy-scan-results.txt"
 
       - name: Upload Trivy Scan Results Artifact
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: trivy-scan-results
