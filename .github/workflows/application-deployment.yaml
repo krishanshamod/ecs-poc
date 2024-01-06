@@ -45,3 +45,10 @@ jobs:
       - name: Push Image to ECR
         run: |
           docker push ${{ secrets.ECR_REPOSITORY_URI }}:${{ github.sha }}
+          echo ${{ github.sha }} >> image-tag.txt
+
+      - name: Upload Image Tag Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: image-tag
+          path: image-tag.txt
