@@ -25,7 +25,10 @@ CURRENT_VERSION=`git describe --abbrev=0 --tags 2>/dev/null`
 
 if [[ $CURRENT_VERSION == '' ]]
 then
-  CURRENT_VERSION='v1.0.0'
+  echo "No version tag found, creating v1.0.0"
+  git tag v1.0.0
+  git push --tags
+  exit 0
 fi
 
 echo "Current Version: $CURRENT_VERSION"
