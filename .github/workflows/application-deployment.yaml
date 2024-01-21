@@ -34,7 +34,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           role-session-name: "GitHub_to_AWS_via_FederatedOIDC"
-          aws-region: "us-east-1"
+          aws-region: ${{ secrets.AWS_Region }}
 
       - name: Configure AWS ECR
         run: |
