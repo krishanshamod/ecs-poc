@@ -54,7 +54,7 @@ elif [[ $VERSION == 'patch' ]]
 then
   VNUM3=$((VNUM3+1))
 else
-  echo "No version type (https://semver.org/) or incorrect type specified, try: -v [major, minor, patch]"
+  echo "No version type or incorrect type specified, try: -v [major, minor, patch]"
   exit 1
 fi
 
