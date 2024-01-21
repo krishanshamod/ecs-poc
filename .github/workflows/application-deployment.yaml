@@ -29,6 +29,10 @@ jobs:
           chmod +x increment-version.sh
           ./increment-version.sh -v patch
 
+      - name: Print commit tag
+        run: |
+          echo ${{ github.ref_name }}
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
