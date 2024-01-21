@@ -27,10 +27,6 @@ jobs:
           fetch-depth: true
           path: main
 
-      - name: echo
-        run: |
-          echo "${{ github.workflow }}-${{ github.ref }}"
-
       - name: Increase Patch Version
         run: |
           cd ./main/.github/workflows/scripts
