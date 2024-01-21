@@ -25,6 +25,7 @@ jobs:
 
       - name: Increase Patch Version
         run: |
+          tree .
           chmod +x ./.github/workflows/scripts/increment-version.sh
           ./.github/workflows/scripts/increment-version.sh -v patch
 
