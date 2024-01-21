@@ -8,6 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     environment: development
     permissions:
       id-token: write
@@ -20,6 +21,7 @@ jobs:
           # Token and fetch-depth are used in increase patch version step
           token: ${{ secrets.PIPELINE_PAT }}
           fetch-depth: true
+          path: main
 
       - name: Increase Patch Version
         run: |
@@ -69,3 +71,25 @@ jobs:
         with:
           name: image-tag
           path: image-tag.txt
+
+      - name: Checkout to IaC repository
+        uses: actions/checkout@v2
+        with:
+          repository: krishanshamod/ecs-poc-iac
+          token: ${{ secrets.PIPELINE_PAT }}
+          path: ecs-poc-iac
+
+      - name: Update ECS Task Definition Image Tag in IaC repository
+        run: |
+          cd ecs-poc-iac
+          sed -i 's/ecs-poc:[^ ]*/ecs-poc:${{ github.sha }}/' ecs.yaml
+
+      - name: Git Commit & Push Image Version to IaC repository
+        run: |
+          cd ecs-poc-iac
+          git config --global user.name 'krishanshamod'
+          git config --global user.email 'krishanshamod@gmail.com'
+          git pull origin main
+          git add .
+          git commit -am "Update image tag to ${{ github.sha }}"
+          git push
