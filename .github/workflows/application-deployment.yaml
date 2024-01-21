@@ -42,6 +42,7 @@ jobs:
 
       - name: Build Docker image
         run: |
+          cd main
           docker build -t ${{ secrets.ECR_REPOSITORY_URI }}:${{ github.sha }} .
 
       - name: Vulnerability Scan with Trivy
