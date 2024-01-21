@@ -25,9 +25,13 @@ CURRENT_VERSION=`git describe --abbrev=0 --tags 2>/dev/null`
 
 if [[ $CURRENT_VERSION == '' ]]
 then
-  CURRENT_VERSION='1.0.0'
+  CURRENT_VERSION='v1.0.0'
 fi
+
 echo "Current Version: $CURRENT_VERSION"
+
+# remove the 'v' prefix
+CURRENT_VERSION=${CURRENT_VERSION#v}
 
 # get major minor and patch
 CURRENT_VERSION_PARTS=(${CURRENT_VERSION//./ })
@@ -50,7 +54,7 @@ else
 fi
 
 # create and push new tag
-NEW_TAG="$VNUM1.$VNUM2.$VNUM3"
+NEW_TAG="v$VNUM1.$VNUM2.$VNUM3"
 echo "New Version: $NEW_TAG"
 git tag $NEW_TAG
 git push --tags
