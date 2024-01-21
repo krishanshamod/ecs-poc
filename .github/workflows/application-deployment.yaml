@@ -44,12 +44,12 @@ jobs:
       - name: Build Docker image
         run: |
           cd main
-          docker build -t ${{ secrets.ECR_REPOSITORY_URI }}:$LATEST_TAG .
+          docker build -t ${{ secrets.ECR_REPOSITORY_URI }}:${{ env.LATEST_TAG }} .
 
       - name: Vulnerability Scan with Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: "${{ secrets.ECR_REPOSITORY_URI }}:$LATEST_TAG"
+          image-ref: "${{ secrets.ECR_REPOSITORY_URI }}:${{ env.LATEST_TAG }}"
           format: "table"
           exit-code: "1"
           ignore-unfixed: true
@@ -66,8 +66,8 @@ jobs:
 
       - name: Push Image to ECR
         run: |
-          docker push ${{ secrets.ECR_REPOSITORY_URI }}:$LATEST_TAG
-          echo $LATEST_TAG >> image-tag.txt
+          docker push ${{ secrets.ECR_REPOSITORY_URI }}:${{ env.LATEST_TAG }}
+          echo ${{ env.LATEST_TAG }} >> image-tag.txt
 
       - name: Upload Image Tag Artifact
         uses: actions/upload-artifact@v3
@@ -85,7 +85,7 @@ jobs:
       - name: Update ECS Task Definition Image Tag in IaC repository
         run: |
           cd ecs-poc-iac
-          sed -i 's/ecs-poc:[^ ]*/ecs-poc:$LATEST_TAG/' ecs.yaml
+          sed -i 's/ecs-poc:[^ ]*/ecs-poc:${{ env.LATEST_TAG }}/' ecs.yaml
 
       - name: Git Commit & Push Image Version to IaC repository
         run: |
@@ -94,5 +94,5 @@ jobs:
           git config --global user.email 'krishanshamod@gmail.com'
           git pull origin main
           git add .
-          git commit -am "Update image tag to $LATEST_TAG"
+          git commit -am "Update image tag to ${{ env.LATEST_TAG }}"
           git push
