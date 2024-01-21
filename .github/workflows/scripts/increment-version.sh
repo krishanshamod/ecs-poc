@@ -23,7 +23,7 @@ fi
 # get the latest tag in the current branch
 CURRENT_VERSION=`git describe --abbrev=0 --tags 2>/dev/null`
 
-# if there are no tags, start tags at v1.0.0 and exit
+# if there are no tags, create v1.0.0, push and exit
 if [[ $CURRENT_VERSION == '' ]]
 then
   echo "No version tag found, creating v1.0.0"
