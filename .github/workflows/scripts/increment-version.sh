@@ -20,10 +20,10 @@ if [ -n "$NEEDS_TAG" ]; then
   exit 0
 fi
 
-# get highest tag number, and add 1.0.0 if doesn't exist
+# get the latest tag in the current branch
 CURRENT_VERSION=`git describe --abbrev=0 --tags 2>/dev/null`
 
-# set tag to v1.0.0 if no tags exist
+# if there are no tags, start tags at v1.0.0 and exit
 if [[ $CURRENT_VERSION == '' ]]
 then
   echo "No version tag found, creating v1.0.0"
@@ -43,6 +43,7 @@ VNUM1=${CURRENT_VERSION_PARTS[0]}
 VNUM2=${CURRENT_VERSION_PARTS[1]}
 VNUM3=${CURRENT_VERSION_PARTS[2]}
 
+# increment version number based on parameter
 if [[ $VERSION == 'major' ]]
 then
   VNUM1=$((VNUM1+1))
