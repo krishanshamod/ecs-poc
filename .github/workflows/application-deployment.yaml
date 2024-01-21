@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -22,6 +26,10 @@ jobs:
           token: ${{ secrets.PIPELINE_PAT }}
           fetch-depth: true
           path: main
+
+      - name: echo
+        run: |
+          echo "${{ github.workflow }}-${{ github.ref }}"
 
       - name: Increase Patch Version
         run: |
