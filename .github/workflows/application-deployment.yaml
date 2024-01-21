@@ -23,6 +23,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           # Token and fetch-depth are used in increase patch version step
+          # Token needa Repo and Workflow permissions
           token: ${{ secrets.PIPELINE_PAT }}
           fetch-depth: true
           path: main
