@@ -23,6 +23,7 @@ fi
 # get highest tag number, and add 1.0.0 if doesn't exist
 CURRENT_VERSION=`git describe --abbrev=0 --tags 2>/dev/null`
 
+# set tag to v1.0.0 if no tags exist
 if [[ $CURRENT_VERSION == '' ]]
 then
   echo "No version tag found, creating v1.0.0"
