@@ -19,12 +19,29 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v3
 
+      - name: Code Vulnerability Scan with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: "fs"
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: "CRITICAL,HIGH"
+          output: "trivy-code-scan-results.txt"
+
+      - name: Upload Trivy Code Scan Results Artifact
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: trivy-code-scan-results
+          path: trivy-code-scan-results.txt
+
       - name: Build Docker image
         run: |
           cd main
           docker build -t ecs-poc-app:latest .
 
-      - name: Vulnerability Scan with Trivy
+      - name: Image Vulnerability Scan with Trivy
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: "ecs-poc-app:latest"
@@ -33,11 +50,11 @@ jobs:
           ignore-unfixed: true
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
-          output: "trivy-scan-results.txt"
+          output: "trivy-image-scan-results.txt"
 
-      - name: Upload Trivy Scan Results Artifact
+      - name: Upload Trivy Image Scan Results Artifact
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: trivy-scan-results
-          path: trivy-scan-results.txt
+          name: trivy-image-scan-results
+          path: trivy-image-scan-results.txt
