@@ -24,7 +24,7 @@ jobs:
         with:
           scan-type: "fs"
           scan-ref: "."
-          format: "sarif"
+          format: "table"
           exit-code: "1"
           ignore-unfixed: true
           severity: "CRITICAL,HIGH"
