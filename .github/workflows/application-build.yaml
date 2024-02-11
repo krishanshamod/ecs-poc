@@ -7,7 +7,7 @@ on:
       - "synchronize"
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     environment: development
@@ -23,9 +23,11 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: "fs"
+          scan-ref: "."
           format: "table"
           exit-code: "1"
           ignore-unfixed: true
+          vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
           output: "trivy-code-scan-results.txt"
 
@@ -38,7 +40,6 @@ jobs:
 
       - name: Build Docker image
         run: |
-          cd main
           docker build -t ecs-poc-app:latest .
 
       - name: Image Vulnerability Scan with Trivy
