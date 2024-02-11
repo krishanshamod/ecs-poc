@@ -39,7 +39,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: "fs"
-          format: "table"
+          format: "sarif"
           exit-code: "1"
           ignore-unfixed: true
           severity: "CRITICAL,HIGH"
@@ -65,7 +65,6 @@ jobs:
 
       - name: Build Docker image
         run: |
-          cd main
           docker build -t ${{ secrets.ECR_REPOSITORY_URI }}:${{ env.LATEST_TAG }} .
 
       - name: Image Vulnerability Scan with Trivy
