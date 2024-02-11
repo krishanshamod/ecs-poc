@@ -43,14 +43,14 @@ jobs:
           exit-code: "1"
           ignore-unfixed: true
           severity: "CRITICAL,HIGH"
-          output: "trivy-code-scan-results.txt"
+          # output: "trivy-code-scan-results.txt"
 
-      - name: Upload Trivy Code Scan Results Artifact
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: trivy-code-scan-results
-          path: trivy-code-scan-results.txt
+      # - name: Upload Trivy Code Scan Results Artifact
+      #   if: always()
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: trivy-code-scan-results
+      #     path: trivy-code-scan-results.txt
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
