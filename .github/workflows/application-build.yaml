@@ -7,7 +7,7 @@ on:
       - "synchronize"
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     environment: development
@@ -23,6 +23,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: "fs"
+          input: "."
           format: "sarif"
           exit-code: "1"
           ignore-unfixed: true
