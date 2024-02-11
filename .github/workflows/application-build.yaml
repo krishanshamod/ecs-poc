@@ -27,15 +27,16 @@ jobs:
           format: "table"
           exit-code: "1"
           ignore-unfixed: true
+          vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
-          # output: "trivy-code-scan-results.txt"
+          output: "trivy-code-scan-results.txt"
 
-      # - name: Upload Trivy Code Scan Results Artifact
-      #   if: always()
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: trivy-code-scan-results
-      #     path: trivy-code-scan-results.txt
+      - name: Upload Trivy Code Scan Results Artifact
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: trivy-code-scan-results
+          path: trivy-code-scan-results.txt
 
       - name: Build Docker image
         run: |
