@@ -1,4 +1,4 @@
-## Run application
+## Run Application
 
 ```bash
 npm install
