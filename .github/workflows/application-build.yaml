@@ -14,7 +14,7 @@ name: Application Build Workflow
 on:
   release:
     types:
-      - created
+      - published
 
 jobs:
   build:
