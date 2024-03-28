@@ -10,12 +10,10 @@ on:
   push:
     tags:
       - "live-v*"
-    branches-ignore:
-      - "main"
-      - "fix/**"
 
 jobs:
   build:
+    if: github.ref_type == 'branch' && startsWith(github.ref, 'refs/heads/release/')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     environment: development
