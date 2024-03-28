@@ -6,14 +6,19 @@ name: Application Build Workflow
 #       - "opened"
 #       - "synchronize"
 
+# on:
+#   push:
+#     tags:
+#       - "live-v*"
+
 on:
-  push:
-    tags:
-      - "live-v*"
+  release:
+    types:
+      - created
 
 jobs:
   build:
-    if: github.ref_type == 'branch' && startsWith(github.ref, 'refs/heads/release/')
+    # if: github.ref_type == 'branch' && startsWith(github.ref, 'refs/heads/release/')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     environment: development
