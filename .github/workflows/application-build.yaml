@@ -7,8 +7,14 @@ name: Application Build Workflow
 #       - "synchronize"
 
 on:
-  release:
-    types: [created, published]
+  push:
+    tags:
+      - "live-v*"
+    branches-ignore:
+      - "main"
+      - "fix/**"
+    tags-ignore:
+      - "v*"
 
 jobs:
   build:
