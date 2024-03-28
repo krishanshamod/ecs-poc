@@ -13,8 +13,6 @@ on:
     branches-ignore:
       - "main"
       - "fix/**"
-    tags-ignore:
-      - "v*"
 
 jobs:
   build:
